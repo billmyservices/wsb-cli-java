@@ -23,9 +23,9 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 @DisplayName("Bill My Services, Java client, test suite")
 class BMSClientTest {
-    private final int CONCURRENT_TESTS = 40;
+    private final int CONCURRENT_TESTS = 30;
     private final long MAX_FUTURES_TIME_MS = 100;
-    private final int THREADS = 4;
+    private final int THREADS = 3;
     private final Logger LOGGER = Logger.getLogger(BMSClient.class.getName());
 
     @BeforeAll
