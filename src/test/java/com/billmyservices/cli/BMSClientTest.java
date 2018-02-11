@@ -170,24 +170,24 @@ class BMSClientTest {
 
     }
 
-    private void concurrentTest() {
+    class ParallelTest extends Thread {
+        private Result<Boolean> result = new Failed<>("test not executed");
 
-        class ParallelTest extends Thread {
-            private Result<Boolean> result = new Failed<>("test not executed");
-
-            public void run() {
-                try {
-                    nonBlockingTest();
-                    result = new Success<>(true);
-                } catch (AssertionFailedError e) {
-                    result = new Failed<>(e.getLocalizedMessage());
-                }
-            }
-
-            public Result<Boolean> getResult() {
-                return result;
+        public void run() {
+            try {
+                nonBlockingTest();
+                result = new Success<>(true);
+            } catch (AssertionFailedError e) {
+                result = new Failed<>(e.getLocalizedMessage());
             }
         }
+
+        public Result<Boolean> getResult() {
+            return result;
+        }
+    }
+
+    private void concurrentTest() {
 
         final List<ParallelTest> ts = IntStream.range(0, THREADS).mapToObj(ignore -> new ParallelTest()).collect(toList());
 
@@ -232,3 +232,4 @@ class BMSClientTest {
     }
 
 }
+
