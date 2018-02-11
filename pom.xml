@@ -7,6 +7,9 @@
     <groupId>billmyservices</groupId>
     <artifactId>wsb-cli-java</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
     <build>
         <plugins>
             <plugin>
@@ -41,6 +44,7 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.0.0</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.asynchttpclient</groupId>
