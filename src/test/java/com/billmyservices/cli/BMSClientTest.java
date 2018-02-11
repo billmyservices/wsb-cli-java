@@ -24,7 +24,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 @DisplayName("Bill My Services, Java client, test suite")
 class BMSClientTest {
     private final int CONCURRENT_TESTS = 40;
-    private final long MAX_FUTURES_TIME_MS = 200;
+    private final long MAX_FUTURES_TIME_MS = 300; // Travis CI is slow requesting... usual local value could be 100 mS
     private final int THREADS = 4;
     private final Logger LOGGER = Logger.getLogger(BMSClient.class.getName());
 
