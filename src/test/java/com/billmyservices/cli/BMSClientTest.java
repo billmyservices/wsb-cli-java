@@ -119,7 +119,7 @@ class BMSClientTest {
         assertTrue(bms.deleteCounterType(counterType.getCode()).get().isSuccess());
     }
 
-    private void nonBlockingTest() {
+    void nonBlockingTest() {
 
         final BMSClient bms = BMSClient.getDefault();
 
@@ -170,26 +170,9 @@ class BMSClientTest {
 
     }
 
-    class ParallelTest extends Thread {
-        private Result<Boolean> result = new Failed<>("test not executed");
-
-        public void run() {
-            try {
-                nonBlockingTest();
-                result = new Success<>(true);
-            } catch (AssertionFailedError e) {
-                result = new Failed<>(e.getLocalizedMessage());
-            }
-        }
-
-        public Result<Boolean> getResult() {
-            return result;
-        }
-    }
-
     private void concurrentTest() {
 
-        final List<ParallelTest> ts = IntStream.range(0, THREADS).mapToObj(ignore -> new ParallelTest()).collect(toList());
+        final List<ParallelTest> ts = IntStream.range(0, THREADS).mapToObj(ignore -> new ParallelTest(this)).collect(toList());
 
         ts.forEach(ParallelTest::start);
 
@@ -233,3 +216,24 @@ class BMSClientTest {
 
 }
 
+class ParallelTest extends Thread {
+    private final BMSClientTest test;
+    Result<Boolean> result = new Failed<>("test not executed");
+
+    ParallelTest(final BMSClientTest test) {
+        this.test = test;
+    }
+
+    public void run() {
+        try {
+            test.nonBlockingTest();
+            result = new Success<>(true);
+        } catch (AssertionFailedError e) {
+            result = new Failed<>(e.getLocalizedMessage());
+        }
+    }
+
+    public Result<Boolean> getResult() {
+        return result;
+    }
+}
