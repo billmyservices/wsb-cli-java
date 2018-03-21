@@ -49,13 +49,14 @@ package com.test;
 
 import com.billmyservices.cli.BMSClient;
 import com.billmyservices.cli.CounterType;
-import com.billmyservices.cli.CounterVersion;
 import com.billmyservices.cli.Result;
 import org.asynchttpclient.ListenableFuture;
 
 import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
+
+import static com.billmyservices.cli.CounterVersion.AbsoluteCounter;
 
 public class Main {
 
@@ -74,11 +75,12 @@ public class Main {
 
 
 
-        // with any counter type we can check resources access, Peter will have access for five times, no more
+        // with any counter type we can check resources access, Peter will have access for five times
         for(int i = 0; i < 7; i++) {
 
             // Peter want access to our resource one (1L) more time
-            final ListenableFuture<Result<Boolean>> futureCounterCheck = bms.postCounter(myCounterTypeCode, "Peter", 1L);
+            final ListenableFuture<Result<Boolean>> futureCounterCheck =
+                            bms.postCounter(myCounterTypeCode, "Peter", 1L);
 
             // we can run something while the counter is increased
             Thread.sleep(1000);
@@ -99,7 +101,8 @@ public class Main {
     private static void createCounterTypeProgrammatically(final BMSClient bms, final String counterTypeCode) throws InterruptedException, ExecutionException {
 
         // create one counter type, you could reuse similar counter types (not to create one each time)
-        final CounterType counterType = new CounterType(counterTypeCode, "my simple counter", 0L, 0L, 5L, CounterVersion.AbsoluteCounter);
+        final CounterType counterType = 
+                new CounterType(counterTypeCode, "my simple counter", 0L, 0L, 5L, AbsoluteCounter);
         final ListenableFuture<Result<Boolean>> futureCounterType = bms.addCounterType(counterType);
 
         // we can run something while the counter type is created
