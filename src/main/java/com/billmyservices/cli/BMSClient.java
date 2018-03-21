@@ -163,6 +163,15 @@ public class BMSClient {
     }
 
     /**
+     * Return the async http client.
+     *
+     * @return the async http client.
+     */
+    public AsyncHttpClient getHttpClient() {
+        return httpClient;
+    }
+
+    /**
      * HTTP status validator, return Result with fail if the http status is not the expected otherwise, the value mapper will be invoked
      *
      * @param httpStatus the expected http status
